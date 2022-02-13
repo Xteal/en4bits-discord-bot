@@ -1,4 +1,7 @@
 require('dotenv').config()
+const express = require('express');
+const appServer = express();
+const server = require('http').Server(appServer);
 const Discord = require("discord.io");
 const logger = require("winston");
 
@@ -8,6 +11,12 @@ logger.add(new logger.transports.Console, {
     colorize: true
 });
 logger.level = "debug";
+
+server.listen(process.env.serverPort, () => {
+    appServer.get('/', (req, res) => {
+        res.json({"mesage":true})
+    })
+});
 
 // Initialize Discord Bot
 const bot = new Discord.Client({
